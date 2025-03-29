@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Health | Occupational Health</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <style>
+        :root {
+            --primary: #3a7bd5;
+            --primary-light: #e3f2fd;
+            --secondary: #00d2ff;
+            --success: #38ef7d;
+            --warning: #f7971e;
+            --danger: #f44336;
+            --info: #17a2b8;
+            --dark: #343a40;
+            --light: #f8f9fa;
+            --gray: #6c757d;
+            --gray-light: #e9ecef;
+            --white: #ffffff;
+            --sidebar-width: 280px;
+            --header-height: 80px;
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        html, body {
+            height: 100%;
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .dashboard-container {
+            display: flex;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        /* Sidebar Styles */
+        .sidebar {
+            width: var(--sidebar-width);
+            background: linear-gradient(135deg, #2c3e50, #4b79cf);
+            color: white;
+            position: fixed;
+            height: 100vh;
+            transition: var(--transition);
+            z-index: 1000;
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+            overflow-y: auto;
+        }
+
+        .logo {
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .logo i {
+            font-size: 2rem;
+            margin-right: 15px;
+            color: var(--white);
+        }
+
+        .logo h1 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .logo span {
+            display: block;
+            font-size: 0.7rem;
+            opacity: 0.8;
+        }
+
+        .main-nav {
+            padding: 20px 0;
+        }
+
+        .main-nav ul {
+            list-style: none;
+        }
+
+        .main-nav li a {
+            display: flex;
+            align-items: center;
+            padding: 12px 20px;
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .main-nav li a:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+
+        .main-nav li a i {
+            font-size: 1.1rem;
+            margin-right: 15px;
+            width: 20px;
+            text-align: center;
+        }
+
+        .main-nav li.active a {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border-left: 4px solid var(--primary);
+        }
+
+        .user-profile {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .user-profile img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 10px;
+            object-fit: cover;
+        }
+
+        .user-info {
+            line-height: 1.4;
+        }
+
+        .user-info strong {
+            display: block;
+            font-size: 0.9rem;
+        }
+
+        .user-info small {
+            font-size: 0.75rem;
+            opacity: 0.8;
+        }
+
+        /* Main Content Styles */
+        .main-content {
+            flex: 1;
+            margin-left: var(--sidebar-width);
+            transition: var(--transition);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .content-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 30px;
+            background: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            height: var(--header-height);
+        }
+
+        .content-header h2 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .subtitle {
+            font-size: 0.85rem;
+            color: var(--gray);
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .btn {
+            padding: 8px 15px;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn i {
+            font-size: 0.9rem;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #2c65b8;
+        }
+
+        .btn-secondary {
+            background-color: var(--light);
+            color: var(--dark);
+            border: 1px solid #ddd;
+        }
+
+        .btn-secondary:hover {
+            background-color: #e2e6ea;
+        }
+
+        .btn-icon {
+            width: 32px;
+            height: 32px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: transparent;
+            border: none;
+            color: var(--gray);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .btn-icon:hover {
+            background: var(--gray-light);
+            color: var(--dark);
+        }
+
+        .btn-sm {
+            padding: 5px 10px;
+            font-size: 0.8rem;
+        }
+
+        .btn-link {
+            background: transparent;
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .btn-link:hover {
+            text-decoration: underline;
+        }
+
+        /* Dashboard Content Styles */
+        .dashboard-content {
+            padding: 30px;
+            flex: 1;
+            overflow-y: auto;
+        }
+
+        .widgets-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        /* Widget Styles */
+        .widget {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            margin-bottom: 30px;
+        }
+
+        .card {
+            border: none;
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .card-header h3 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .card-header h3 i {
+            color: var(--primary);
+        }
+
+        .card-body {
+            padding: 20px;
+        }
+
+        .full-width {
+            grid-column: 1 / -1;
+        }
+
+        /* Health Metrics */
+        .health-metric {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .metric-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 5px;
+        }
+
+        .metric-label {
+            font-size: 0.9rem;
+            color: var(--gray);
+            margin-bottom: 15px;
+        }
+
+        .progress-bar {
+            height: 8px;
+            background: var(--gray-light);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--primary);
+            border-radius: 4px;
+            transition: width 0.5s ease;
+        }
+
+        .health-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            text-align: center;
+        }
+
+        .stat-item {
+            padding: 10px;
+            border-radius: 8px;
+            background: var(--light);
+        }
+
+        .stat-item.warning {
+            background: rgba(247, 151, 30, 0.1);
+        }
+
+        .stat-item.danger {
+            background: rgba(244, 67, 54, 0.1);
+        }
+
+        .stat-number {
+            font-size: 1.5rem;
+            font-weight: 600;
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            color: var(--gray);
+        }
+
+        /* Screening List */
+        .screening-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .screening-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            background: var(--light);
+            border-radius: 8px;
+        }
+
+        .screening-info strong {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .screening-info small {
+            font-size: 0.8rem;
+            color: var(--gray);
+        }
+
+        .badge {
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .badge.warning {
+            background: rgba(247, 151, 30, 0.1);
+            color: var(--warning);
+        }
+
+        .badge.danger {
+            background: rgba(244, 67, 54, 0.1);
+            color: var(--danger);
+        }
+
+        /* Data Table */
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .data-table th {
+            text-align: left;
+            padding: 12px 15px;
+            background: #f8f9fa;
+            font-weight: 600;
+            font-size: 0.85rem;
+            color: var(--gray);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .data-table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #eee;
+            font-size: 0.9rem;
+        }
+
+        .data-table tr:hover td {
+            background: #f8f9fa;
+        }
+
+        .status {
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .status.warning {
+            background: rgba(247, 151, 30, 0.1);
+            color: var(--warning);
+        }
+
+        .status.success {
+            background: rgba(56, 239, 125, 0.1);
+            color: var(--success);
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 1200px) {
+            .widgets-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            }
+        }
+
+        @media (max-width: 992px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+            
+            .main-content {
+                margin-left: 0;
+            }
+            
+            .sidebar.active {
+                transform: translateX(0);
+            }
+            
+            .content-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+                height: auto;
+                padding: 15px;
+            }
+            
+            .header-actions {
+                width: 100%;
+                flex-wrap: wrap;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .health-stats {
+                grid-template-columns: 1fr;
+            }
+            
+            .data-table {
+                display: block;
+                overflow-x: auto;
+                white-space: nowrap;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .widgets-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <aside class="sidebar">
+            <div class="logo">
+                <i class="fas fa-user-md"></i>
+                <h1>OCCUPATIONAL HEALTH AND SAFETY<span>Minimizing risks, maximizing workplace well-being</span></h1>
+            </div>
+            
+            <nav class="main-nav">
+                <ul>
+                    <li>
+                        <a href="index.html">
+                            <i class="fas fa-tachometer-alt"></i>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="incidents.html">
+                            <i class="fas fa-file-medical"></i>
+                            <span>Incident Reports</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="preventive.html">
+                            <i class="fas fa-procedures"></i>
+                            <span>Preventive Actions</span>
+                        </a>
+                    </li>
+                    <li class="active">
+                        <a href="employee.html">
+                            <i class="fas fa-heartbeat"></i>
+                            <span>Employee Health</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="analytics.html">
+                            <i class="fas fa-chart-bar"></i>
+                            <span>Analytics</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="compliance.html">
+                            <i class="fas fa-clipboard-check"></i>
+                            <span>Compliance</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            
+            <div class="user-profile">
+                <img src="assets/images/medical-avatar.jpg" alt="Medical Professional">
+                <div class="user-info">
+                    <strong>Dr. June Wahu</strong>
+                    <small>Occupational Health Specialist</small>
+                </div>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <header class="content-header">
+                <div>
+                    <h2>Employee Health Records</h2>
+                    <p class="subtitle">Manage and monitor employee health status</p>
+                </div>
+                <div class="header-actions">
+                    <button class="btn btn-primary">
+                        <i class="fas fa-plus"></i> New Record
+                    </button>
+                </div>
+            </header>
+
+            <div class="dashboard-content">
+                <div class="widgets-grid">
+                    <div class="widget card">
+                        <div class="card-header">
+                            <h3><i class="fas fa-syringe"></i> Vaccination Status</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="health-metric">
+                                <div class="metric-value">87%</div>
+                                <div class="metric-label">Employees vaccinated</div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 87%"></div>
+                                </div>
+                            </div>
+                            <div class="health-stats">
+                                <div class="stat-item">
+                                    <span class="stat-number">42</span>
+                                    <span class="stat-label">Up to date</span>
+                                </div>
+                                <div class="stat-item warning">
+                                    <span class="stat-number">5</span>
+                                    <span class="stat-label">Partial</span>
+                                </div>
+                                <div class="stat-item danger">
+                                    <span class="stat-number">3</span>
+                                    <span class="stat-label">Not vaccinated</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="widget card">
+                        <div class="card-header">
+                            <h3><i class="fas fa-heartbeat"></i> Health Screenings</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="screening-list">
+                                <div class="screening-item">
+                                    <div class="screening-info">
+                                        <strong>Annual Physicals</strong>
+                                        <small>Due within 30 days</small>
+                                    </div>
+                                    <span class="badge warning">8 pending</span>
+                                </div>
+                                <div class="screening-item">
+                                    <div class="screening-info">
+                                        <strong>Hearing Tests</strong>
+                                        <small>Annual requirement</small>
+                                    </div>
+                                    <span class="badge">12 completed</span>
+                                </div>
+                                <div class="screening-item">
+                                    <div class="screening-info">
+                                        <strong>Respiratory Exams</strong>
+                                        <small>For high-risk areas</small>
+                                    </div>
+                                    <span class="badge danger">3 overdue</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="widget card full-width">
+                        <div class="card-header">
+                            <h3><i class="fas fa-user-injured"></i> High-Risk Employees</h3>
+                        </div>
+                        <div class="card-body">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Employee</th>
+                                        <th>Department</th>
+                                        <th>Risk Factor</th>
+                                        <th>Last Assessment</th>
+                                        <th>Next Follow-up</th>
+                                        <th>Status</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>John D.</td>
+                                        <td>Warehouse</td>
+                                        <td>Chronic back pain</td>
+                                        <td>2023-05-15</td>
+                                        <td>2023-07-15</td>
+                                        <td><span class="status warning">Monitoring</span></td>
+                                        <td>
+                                            <button class="btn-icon"><i class="fas fa-file-medical"></i></button>
+                                            <button class="btn-icon"><i class="fas fa-calendar-plus"></i></button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Sarah M.</td>
+                                        <td>Laboratory</td>
+                                        <td>Chemical sensitivity</td>
+                                        <td>2023-06-10</td>
+                                        <td>2023-09-10</td>
+                                        <td><span class="status warning">Monitoring</span></td>
+                                        <td>
+                                            <button class="btn-icon"><i class="fas fa-file-medical"></i></button>
+                                            <button class="btn-icon"><i class="fas fa-calendar-plus"></i></button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Michael T.</td>
+                                        <td>Manufacturing</td>
+                                        <td>Hearing loss</td>
+                                        <td>2023-04-22</td>
+                                        <td>2023-10-22</td>
+                                        <td><span class="status warning">Monitoring</span></td>
+                                        <td>
+                                            <button class="btn-icon"><i class="fas fa-file-medical"></i></button>
+                                            <button class="btn-icon"><i class="fas fa-calendar-plus"></i></button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Lisa P.</td>
+                                        <td>Office</td>
+                                        <td>Repetitive strain injury</td>
+                                        <td>2023-07-01</td>
+                                        <td>2024-01-01</td>
+                                        <td><span class="status success">Stable</span></td>
+                                        <td>
+                                            <button class="btn-icon"><i class="fas fa-file-medical"></i></button>
+                                            <button class="btn-icon"><i class="fas fa-calendar-plus"></i></button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add any necessary JavaScript functionality here
+            // For example, handling button clicks or form submissions
+            
+            // Example: Highlight current page in sidebar
+            const currentPage = window.location.pathname.split('/').pop();
+            document.querySelectorAll('.main-nav a').forEach(link => {
+                if (link.getAttribute('href') === currentPage) {
+                    link.parentElement.classList.add('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

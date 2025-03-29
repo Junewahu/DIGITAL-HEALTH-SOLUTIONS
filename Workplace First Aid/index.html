@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Workplace First Aid & Emergency Guide</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+</head>
+<body>
+    <div class="container">
+        <header class="animate__animated animate__fadeIn">
+            <h1><i class="fas fa-first-aid"></i> Workplace Emergency Response Guide</h1>
+            <p class="subtitle">Comprehensive first aid instructions for workplace emergencies</p>
+            <div class="emergency-contact">
+                <button id="emergency-btn"><i class="fas fa-phone-alt"></i> Emergency Contacts</button>
+            </div>
+        </header>
+
+        <div class="search-container animate__animated animate__fadeIn animate__delay-1s">
+            <div class="search-box">
+                <input type="text" id="search-input" placeholder="Search emergencies...">
+                <button id="search-btn"><i class="fas fa-search"></i></button>
+            </div>
+            <div class="filter-buttons">
+                <button class="filter-btn active" data-filter="all">All</button>
+                <button class="filter-btn" data-filter="medical">Medical</button>
+                <button class="filter-btn" data-filter="trauma">Trauma</button>
+                <button class="filter-btn" data-filter="environmental">Environmental</button>
+            </div>
+        </div>
+
+        <div class="emergency-list" id="emergency-list">
+            <!-- Emergency items will be inserted here by JavaScript -->
+        </div>
+
+        <div class="emergency-details" id="emergency-details" style="display: none;">
+            <button id="back-btn" class="back-btn"><i class="fas fa-arrow-left"></i> Back</button>
+            <div class="detail-header">
+                <h2 id="detail-title"></h2>
+                <span class="emergency-tag" id="emergency-tag"></span>
+            </div>
+            <div class="alert-banner" id="alert-banner"></div>
+            <div class="detail-content">
+                <div class="detail-section">
+                    <h3><i class="fas fa-exclamation-triangle"></i> Signs & Symptoms</h3>
+                    <ul id="symptoms-list"></ul>
+                </div>
+                <div class="detail-section">
+                    <h3><i class="fas fa-procedures"></i> First Aid Steps</h3>
+                    <div class="steps-container" id="steps-container"></div>
+                </div>
+                <div class="detail-section">
+                    <h3><i class="fas fa-ban"></i> What NOT to Do</h3>
+                    <ul id="donts-list"></ul>
+                </div>
+                <div class="detail-section">
+                    <h3><i class="fas fa-user-md"></i> When to Seek Medical Help</h3>
+                    <div id="medical-help"></div>
+                </div>
+                <div class="emergency-image" id="emergency-image"></div>
+            </div>
+            <div class="note">
+                <p><strong>Important:</strong> This guide is for informational purposes only and does not replace professional medical training. Always call emergency services first in serious situations.</p>
+            </div>
+        </div>
+
+        <!-- Emergency Contacts Modal -->
+        <div class="modal" id="emergency-modal" style="display: none;">
+            <div class="modal-content">
+                <span class="close-btn">&times;</span>
+                <h2><i class="fas fa-phone-alt"></i> Emergency Contacts</h2>
+                <div class="contact-list">
+                    <div class="contact-item">
+                        <h3>Universal Emergency Number</h3>
+                        <p class="contact-number">999 (or your local emergency number)</p>
+                    </div>
+                    <div class="contact-item">
+                        <h3>Poison Control</h3>
+                        <p class="contact-number">+254 709 770 100 (Kenya) or local number</p>
+                    </div>
+                    <div class="contact-item">
+                        <h3>Workplace Safety</h3>
+                        <p class="contact-details">Your company's safety officer: Johnson Gilbert [+254 700 000 000] </p>
+                    </div>
+                    <div class="contact-item">
+                        <h3>Nearest Hospital</h3>
+                        <p class="contact-details">Kenyatta National Hospital: Hospital Rd · 020 2726300</p>
+                    </div>
+                </div>
+                <button class="print-btn" id="print-contacts-btn"><i class="fas fa-print"></i> Print Contacts</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

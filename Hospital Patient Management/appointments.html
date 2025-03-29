@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Appointment Scheduling</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    /* Additional styles for calendar */
+    .calendar-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: var(--space-md);
+    }
+    
+    .calendar-nav {
+      display: flex;
+      gap: var(--space-sm);
+    }
+    
+    .calendar-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: var(--space-sm);
+      margin-top: var(--space-md);
+    }
+    
+    .calendar-day-header {
+      text-align: center;
+      font-weight: 600;
+      color: var(--secondary);
+      padding: var(--space-sm);
+      font-size: var(--text-sm);
+    }
+    
+    .calendar-day {
+      background: white;
+      border-radius: var(--radius-md);
+      padding: var(--space-sm);
+      min-height: 100px;
+      border: 1px solid var(--light-gray);
+    }
+    
+    .calendar-date {
+      font-weight: 600;
+      margin-bottom: var(--space-xs);
+    }
+    
+    .appointment-badge {
+      background: var(--primary-light);
+      color: white;
+      padding: 2px var(--space-xs);
+      border-radius: var(--radius-xl);
+      font-size: var(--text-xs);
+      display: block;
+      margin-bottom: var(--space-xs);
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="logo">
+        <i class="fas fa-hospital"></i>
+        <span>MediCare</span>
+      </div>
+      <nav class="nav">
+        <a href="index.html" class="nav-item">
+          <i class="fas fa-tachometer-alt"></i>
+          <span>Dashboard</span>
+        </a>
+        <a href="patients.html" class="nav-item">
+          <i class="fas fa-user-injured"></i>
+          <span>Patients</span>
+        </a>
+        <a href="appointments.html" class="nav-item active">
+          <i class="fas fa-calendar-check"></i>
+          <span>Appointments</span>
+        </a>
+        <a href="medical.html" class="nav-item">
+          <i class="fas fa-file-medical"></i>
+          <span>Medical Records</span>
+        </a>
+      </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main">
+      <div class="header">
+        <h1>Appointment Scheduling</h1>
+        <div class="user-profile">
+          <span>Dr. Smith</span>
+          <i class="fas fa-user-md"></i>
+        </div>
+      </div>
+
+      <!-- Appointment Actions -->
+      <div style="display: flex; justify-content: space-between; margin-bottom: var(--space-md);">
+        <button class="btn btn-primary">
+          <i class="fas fa-plus"></i> New Appointment
+        </button>
+        <div style="display: flex; gap: var(--space-sm);">
+          <select class="form-control" style="width: 180px;">
+            <option>All Doctors</option>
+            <option>Dr. Smith</option>
+            <option>Dr. Johnson</option>
+          </select>
+          <input type="date" class="form-control">
+        </div>
+      </div>
+
+      <!-- Calendar View -->
+      <div class="table-container">
+        <div class="calendar-header">
+          <h3>April 2025</h3>
+          <div class="calendar-nav">
+            <button class="btn btn-outline btn-sm">
+              <i class="fas fa-chevron-left"></i>
+            </button>
+            <button class="btn btn-outline btn-sm">
+              Today
+            </button>
+            <button class="btn btn-outline btn-sm">
+              <i class="fas fa-chevron-right"></i>
+            </button>
+          </div>
+        </div>
+
+        <div class="calendar-grid">
+          <!-- Day Headers -->
+          <div class="calendar-day-header">Sun</div>
+          <div class="calendar-day-header">Mon</div>
+          <div class="calendar-day-header">Tue</div>
+          <div class="calendar-day-header">Wed</div>
+          <div class="calendar-day-header">Thu</div>
+          <div class="calendar-day-header">Fri</div>
+          <div class="calendar-day-header">Sat</div>
+
+          <!-- Calendar Days -->
+          <div class="calendar-day">
+            <div class="calendar-date">6</div>
+          </div>
+          <div class="calendar-day">
+            <div class="calendar-date">7</div>
+          </div>
+          <div class="calendar-day">
+            <div class="calendar-date">8</div>
+          </div>
+          <div class="calendar-day">
+            <div class="calendar-date">9</div>
+          </div>
+          <div class="calendar-day">
+            <div class="calendar-date">10</div>
+          </div>
+          <div class="calendar-day">
+            <div class="calendar-date">11</div>
+            <span class="appointment-badge">John Doe - 10:00 AM</span>
+          </div>
+          <div class="calendar-day">
+            <div class="calendar-date">12</div>
+          </div>
+          <!-- More days... -->
+        </div>
+      </div>
+
+      <!-- Upcoming Appointments -->
+      <h3 style="margin-top: var(--space-xl); margin-bottom: var(--space-md);">Upcoming Appointments</h3>
+      <div class="table-container">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Patient</th>
+              <th>Date & Time</th>
+              <th>Doctor</th>
+              <th>Purpose</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>John Doe</td>
+              <td>April 11, 2025 - 10:00 AM</td>
+              <td>Dr. Smith</td>
+              <td>Annual Checkup</td>
+              <td><span class="badge badge-success">Confirmed</span></td>
+              <td>
+                <button class="btn btn-outline btn-sm">
+                  <i class="fas fa-edit"></i>
+                </button>
+              </td>
+            </tr>
+            <tr>
+              <td>Jane Smith</td>
+              <td>April 12, 2025 - 2:30 PM</td>
+              <td>Dr. Johnson</td>
+              <td>Follow-up</td>
+              <td><span class="badge badge-warning">Pending</span></td>
+              <td>
+                <button class="btn btn-outline btn-sm">
+                  <i class="fas fa-edit"></i>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </main>
+  </div>
+
+  <script src="js/script.js"></script>
+</body>
+</html>

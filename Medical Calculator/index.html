@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Medical Calculators</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1><i class="fas fa-calculator"></i> Medical Calculators</h1>
+        <p>Essential tools for clinical practice</p>
+    </header>
+
+    <div class="container">
+        <div class="tabs">
+            <button class="tab-btn active" data-tab="bmi">BMI</button>
+            <button class="tab-btn" data-tab="gfr">GFR</button>
+            <button class="tab-btn" data-tab="mdrd">MDRD</button>
+            <button class="tab-btn" data-tab="wells">Wells Score</button>
+            <button class="tab-btn" data-tab="chads">CHADS₂</button>
+        </div>
+
+        <div class="tab-content active" id="bmi-tab">
+            <h2><i class="fas fa-weight"></i> Body Mass Index Calculator</h2>
+            <div class="input-group">
+                <label for="weight"><i class="fas fa-weight-hanging"></i> Weight (kg):</label>
+                <input type="number" id="weight" step="0.1" placeholder="e.g. 70.5">
+            </div>
+            <div class="input-group">
+                <label for="height"><i class="fas fa-ruler-vertical"></i> Height (cm):</label>
+                <input type="number" id="height" placeholder="e.g. 175">
+            </div>
+            <button class="calculate-btn" onclick="calculateBMI()">Calculate BMI</button>
+            
+            <div class="result-container">
+                <div id="bmi-result" class="result-box">
+                    <h3>Your BMI</h3>
+                    <div class="result-value">--</div>
+                    <div id="bmi-category" class="result-category">Enter your measurements</div>
+                </div>
+                <div class="bmi-chart">
+                    <h3>BMI Categories</h3>
+                    <ul>
+                        <li class="underweight">Underweight: &lt;18.5</li>
+                        <li class="normal">Normal weight: 18.5-24.9</li>
+                        <li class="overweight">Overweight: 25-29.9</li>
+                        <li class="obese">Obese: ≥30</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="tab-content" id="gfr-tab">
+            <h2><i class="fas fa-kidneys"></i> Glomerular Filtration Rate Calculator</h2>
+            <div class="input-row">
+                <div class="input-group">
+                    <label for="age-gfr">Age (years):</label>
+                    <input type="number" id="age-gfr" placeholder="e.g. 45">
+                </div>
+                <div class="input-group">
+                    <label for="sex-gfr">Sex:</label>
+                    <select id="sex-gfr">
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                    </select>
+                </div>
+            </div>
+            <div class="input-group">
+                <label for="creatinine">Serum Creatinine (μmol/L):</label>
+                <input type="number" id="creatinine" placeholder="e.g. 80">
+            </div>
+            <button class="calculate-btn" onclick="calculateGFR()">Calculate GFR</button>
+            
+            <div class="result-container">
+                <div id="gfr-result" class="result-box">
+                    <h3>Estimated GFR</h3>
+                    <div class="result-value">--</div>
+                    <div id="gfr-stage" class="result-category">Enter patient details</div>
+                </div>
+                <div class="gfr-chart">
+                    <h3>CKD Stages</h3>
+                    <ul>
+                        <li class="stage1">Stage 1: ≥90 (Normal)</li>
+                        <li class="stage2">Stage 2: 60-89 (Mild)</li>
+                        <li class="stage3">Stage 3a: 45-59 (Moderate)</li>
+                        <li class="stage3">Stage 3b: 30-44 (Moderate)</li>
+                        <li class="stage4">Stage 4: 15-29 (Severe)</li>
+                        <li class="stage5">Stage 5: &lt;15 (Kidney failure)</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="tab-content" id="mdrd-tab">
+            <h2><i class="fas fa-vial"></i> MDRD GFR Calculator</h2>
+            <div class="input-row">
+                <div class="input-group">
+                    <label for="age-mdrd">Age (years):</label>
+                    <input type="number" id="age-mdrd" placeholder="e.g. 45">
+                </div>
+                <div class="input-group">
+                    <label for="sex-mdrd">Sex:</label>
+                    <select id="sex-mdrd">
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label for="race-mdrd">Race:</label>
+                    <select id="race-mdrd">
+                        <option value="other">Other</option>
+                        <option value="black">Black/African American</option>
+                    </select>
+                </div>
+            </div>
+            <div class="input-group">
+                <label for="creatinine-mdrd">Serum Creatinine (μmol/L):</label>
+                <input type="number" id="creatinine-mdrd" placeholder="e.g. 80">
+            </div>
+            <button class="calculate-btn" onclick="calculateMDRD()">Calculate MDRD GFR</button>
+            
+            <div class="result-container">
+                <div id="mdrd-result" class="result-box">
+                    <h3>MDRD GFR</h3>
+                    <div class="result-value">--</div>
+                    <div id="mdrd-stage" class="result-category">Enter patient details</div>
+                </div>
+                <div class="info-box">
+                    <h3>About MDRD</h3>
+                    <p>The Modification of Diet in Renal Disease (MDRD) equation estimates GFR based on creatinine, age, sex, and race.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="tab-content" id="wells-tab">
+            <h2><i class="fas fa-lungs"></i> Wells' Score for PE</h2>
+            <div class="checkbox-group">
+                <label class="checkbox-container">Clinical signs of DVT
+                    <input type="checkbox" id="wells-dvt">
+                    <span class="checkmark"></span>
+                </label>
+                <label class="checkbox-container">PE is #1 diagnosis
+                    <input type="checkbox" id="wells-diagnosis">
+                    <span class="checkmark"></span>
+                </label>
+                <label class="checkbox-container">Heart rate >100
+                    <input type="checkbox" id="wells-hr">
+                    <span class="checkmark"></span>
+                </label>
+                <label class="checkbox-container">Immobilization/surgery in past 4 weeks
+                    <input type="checkbox" id="wells-immobilization">
+                    <span class="checkmark"></span>
+                </label>
+                <label class="checkbox-container">Previous DVT/PE
+                    <input type="checkbox" id="wells-history">
+                    <span class="checkmark"></span>
+                </label>
+                <label class="checkbox-container">Hemoptysis
+                    <input type="checkbox" id="wells-hemoptysis">
+                    <span class="checkmark"></span>
+                </label>
+                <label class="checkbox-container">Malignancy
+                    <input type="checkbox" id="wells-malignancy">
+                    <span class="checkmark"></span>
+                </label>
+            </div>
+            <button class="calculate-btn" onclick="calculateWells()">Calculate Wells Score</button>
+            
+            <div class="result-container">
+                <div id="wells-result" class="result-box">
+                    <h3>Wells Score</h3>
+                    <div class="result-value">--</div>
+                    <div id="wells-risk" class="result-category">Select criteria</div>
+                </div>
+                <div class="info-box">
+                    <h3>Interpretation</h3>
+                    <ul>
+                        <li><strong>≤4:</strong> PE unlikely (consider D-dimer)</li>
+                        <li><strong>>4:</strong> PE likely (consider imaging)</li>
+                        <li><strong>≥6:</strong> High probability</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="tab-content" id="chads-tab">
+            <h2><i class="fas fa-heartbeat"></i> CHADS₂ Score for AF</h2>
+            <div class="checkbox-group">
+                <label class="checkbox-container">Congestive heart failure
+                    <input type="checkbox" id="chads-chf">
+                    <span class="checkmark"></span>
+                </label>
+                <label class="checkbox-container">Hypertension
+                    <input type="checkbox" id="chads-htn">
+                    <span class="checkmark"></span>
+                </label>
+                <label class="checkbox-container">Age ≥75 years
+                    <input type="checkbox" id="chads-age">
+                    <span class="checkmark"></span>
+                </label>
+                <label class="checkbox-container">Diabetes mellitus
+                    <input type="checkbox" id="chads-diabetes">
+                    <span class="checkmark"></span>
+                </label>
+                <label class="checkbox-container">Stroke/TIA/thromboembolism
+                    <input type="checkbox" id="chads-stroke">
+                    <span class="checkmark"></span>
+                </label>
+            </div>
+            <button class="calculate-btn" onclick="calculateCHADS()">Calculate CHADS₂ Score</button>
+            
+            <div class="result-container">
+                <div id="chads-result" class="result-box">
+                    <h3>CHADS₂ Score</h3>
+                    <div class="result-value">--</div>
+                    <div id="chads-risk" class="result-category">Select criteria</div>
+                </div>
+                <div class="info-box">
+                    <h3>Stroke Risk</h3>
+                    <ul>
+                        <li><strong>0:</strong> Low (1.9% per year)</li>
+                        <li><strong>1:</strong> Moderate (2.8% per year)</li>
+                        <li><strong>2:</strong> High (4.0% per year)</li>
+                        <li><strong>≥3:</strong> Very high (≥5.9% per year)</li>
+                    </ul>
+                    <p>Consider anticoagulation for score ≥2 (or ≥1 in selected patients).</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>For educational purposes only. Not a substitute for clinical judgment.</p>
+        <p>Created by June Wahu<p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

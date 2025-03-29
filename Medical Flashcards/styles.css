@@ -1,0 +1,450 @@
+:root {
+    --primary-color: #3498db;
+    --secondary-color: #2c3e50;
+    --success-color: #2ecc71;
+    --warning-color: #f39c12;
+    --danger-color: #e74c3c;
+    --light-color: #ecf0f1;
+    --dark-color: #34495e;
+    --text-color: #333;
+    --text-light: #7f8c8d;
+    --border-radius: 8px;
+    --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    --transition: all 0.3s ease;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+    color: var(--text-color);
+    background-color: #f5f7fa;
+    padding: 20px;
+}
+
+.container {
+    max-width: 900px;
+    margin: 0 auto;
+    background: white;
+    padding: 30px;
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+}
+
+header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+header h1 {
+    color: var(--secondary-color);
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+}
+
+header .subtitle {
+    color: var(--text-light);
+    font-size: 1.1rem;
+}
+
+.mode-selection, .category-selection {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.mode-selection h2, .category-selection h2 {
+    margin-bottom: 20px;
+    color: var(--secondary-color);
+}
+
+.mode-options {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.mode-card {
+    background: white;
+    padding: 25px;
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    width: 280px;
+    cursor: pointer;
+    transition: var(--transition);
+    border: 2px solid transparent;
+}
+
+.mode-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    border-color: var(--primary-color);
+}
+
+.mode-card i {
+    font-size: 2.5rem;
+    color: var(--primary-color);
+    margin-bottom: 15px;
+}
+
+.mode-card h3 {
+    margin-bottom: 10px;
+    color: var(--secondary-color);
+}
+
+.mode-card p {
+    color: var(--text-light);
+    font-size: 0.9rem;
+}
+
+.category-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    justify-content: center;
+}
+
+.category-btn {
+    background: white;
+    border: 1px solid #ddd;
+    padding: 12px 20px;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: var(--transition);
+    font-weight: 500;
+}
+
+.category-btn:hover {
+    background: var(--primary-color);
+    color: white;
+    border-color: var(--primary-color);
+}
+
+.flashcard-container {
+    position: relative;
+}
+
+.progress-container {
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.progress-bar {
+    flex-grow: 1;
+    height: 10px;
+    background: #eee;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    background: var(--primary-color);
+    width: 0%;
+    transition: width 0.5s ease;
+}
+
+#progress-text {
+    font-size: 0.9rem;
+    color: var(--text-light);
+    min-width: 50px;
+}
+
+.flashcard {
+    width: 100%;
+    height: 400px;
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform 0.6s;
+    cursor: pointer;
+    margin-bottom: 30px;
+    perspective: 1000px;
+}
+
+.flashcard.flipped {
+    transform: rotateY(180deg);
+}
+
+.front, .back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    padding: 30px;
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    display: flex;
+    flex-direction: column;
+}
+
+.front {
+    background: white;
+    border: 1px solid #eee;
+}
+
+.back {
+    background: #f9f9f9;
+    transform: rotateY(180deg);
+    border: 1px solid #ddd;
+}
+
+.flashcard-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.category-tag {
+    background: var(--primary-color);
+    color: white;
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: bold;
+}
+
+.bookmark-btn {
+    background: none;
+    border: none;
+    color: var(--text-light);
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.bookmark-btn:hover {
+    color: var(--warning-color);
+}
+
+.bookmark-btn.active {
+    color: var(--warning-color);
+}
+
+.content {
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-size: 1.2rem;
+    line-height: 1.8;
+}
+
+.difficulty-rating {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.difficulty-rating p {
+    margin-bottom: 10px;
+    font-size: 0.9rem;
+    color: var(--text-light);
+}
+
+.rating-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.difficulty-btn {
+    padding: 8px 15px;
+    border: none;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: var(--transition);
+    font-weight: 500;
+}
+
+.difficulty-btn[data-rating="1"] {
+    background-color: var(--danger-color);
+    color: white;
+}
+
+.difficulty-btn[data-rating="2"] {
+    background-color: var(--warning-color);
+    color: white;
+}
+
+.difficulty-btn[data-rating="3"] {
+    background-color: var(--success-color);
+    color: white;
+}
+
+.difficulty-btn:hover {
+    opacity: 0.9;
+    transform: translateY(-2px);
+}
+
+.navigation {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+}
+
+.btn-nav {
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.btn-nav:hover {
+    background: var(--secondary-color);
+    transform: translateY(-2px);
+}
+
+.btn-secondary {
+    background: white;
+    color: var(--primary-color);
+    border: 1px solid var(--primary-color);
+    padding: 10px 20px;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 20px auto 0;
+}
+
+.btn-secondary:hover {
+    background: var(--primary-color);
+    color: white;
+}
+
+.stats {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.stat-box {
+    text-align: center;
+    min-width: 100px;
+}
+
+.stat-number {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: var(--primary-color);
+    display: block;
+}
+
+.stat-label {
+    font-size: 0.9rem;
+    color: var(--text-light);
+}
+
+.bookmarks-view {
+    text-align: center;
+}
+
+.bookmarks-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 15px;
+    margin: 20px 0;
+}
+
+.bookmark-card {
+    background: white;
+    padding: 20px;
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    border-left: 4px solid var(--warning-color);
+    text-align: left;
+    transition: var(--transition);
+}
+
+.bookmark-card:hover {
+    transform: translateY(-3px);
+}
+
+.bookmark-card h3 {
+    margin-bottom: 10px;
+    color: var(--secondary-color);
+}
+
+.bookmark-card p {
+    color: var(--text-light);
+    font-size: 0.9rem;
+}
+
+.bookmark-card .category {
+    display: inline-block;
+    background: #eee;
+    padding: 3px 8px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    margin-top: 10px;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .container {
+        padding: 20px;
+    }
+
+    .mode-options {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .mode-card {
+        width: 100%;
+    }
+
+    .flashcard {
+        height: 350px;
+    }
+
+    .content {
+        font-size: 1.1rem;
+    }
+
+    .stats {
+        gap: 15px;
+    }
+
+    .stat-box {
+        min-width: 80px;
+    }
+}
+
+@media (max-width: 480px) {
+    header h1 {
+        font-size: 2rem;
+    }
+
+    .flashcard {
+        height: 300px;
+        padding: 15px;
+    }
+
+    .navigation {
+        gap: 10px;
+    }
+
+    .btn-nav, .btn-secondary {
+        padding: 8px 15px;
+        font-size: 0.9rem;
+    }
+}

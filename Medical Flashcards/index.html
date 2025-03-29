@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medical Flashcards</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-book-medical"></i> Medical Flashcards</h1>
+            <p class="subtitle">Master medical knowledge with interactive flashcards</p>
+        </header>
+
+        <div id="mode-selection" class="mode-selection">
+            <h2>Select Study Mode</h2>
+            <div class="mode-options">
+                <div class="mode-card" id="memorize-mode">
+                    <i class="fas fa-brain"></i>
+                    <h3>Memorize</h3>
+                    <p>Learn new concepts with spaced repetition</p>
+                </div>
+                <div class="mode-card" id="test-mode">
+                    <i class="fas fa-vial"></i>
+                    <h3>Test Yourself</h3>
+                    <p>Challenge your recall ability</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="category-selection" class="category-selection" style="display: none;">
+            <h2>Select Category</h2>
+            <div class="category-options" id="category-options"></div>
+            <button id="back-to-modes" class="btn-secondary">
+                <i class="fas fa-arrow-left"></i> Back to Modes
+            </button>
+        </div>
+
+        <div id="flashcard-container" class="flashcard-container" style="display: none;">
+            <div class="progress-container">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progress-fill"></div>
+                </div>
+                <span id="progress-text">0/0</span>
+            </div>
+
+            <div class="flashcard" id="flashcard">
+                <div class="front">
+                    <div class="flashcard-header">
+                        <span class="category-tag" id="current-category"></span>
+                        <button class="bookmark-btn" id="bookmark-btn">
+                            <i class="far fa-bookmark"></i>
+                        </button>
+                    </div>
+                    <div class="content" id="question"></div>
+                </div>
+                <div class="back">
+                    <div class="content" id="answer"></div>
+                    <div class="difficulty-rating">
+                        <p>How well did you know this?</p>
+                        <div class="rating-buttons">
+                            <button class="difficulty-btn" data-rating="1">Hard</button>
+                            <button class="difficulty-btn" data-rating="2">Medium</button>
+                            <button class="difficulty-btn" data-rating="3">Easy</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="navigation">
+                <button id="prev-btn" class="btn-nav">
+                    <i class="fas fa-arrow-left"></i> Previous
+                </button>
+                <button id="next-btn" class="btn-nav">
+                    Next <i class="fas fa-arrow-right"></i>
+                </button>
+                <button id="shuffle-btn" class="btn-nav">
+                    <i class="fas fa-random"></i> Shuffle
+                </button>
+            </div>
+
+            <div class="stats">
+                <div class="stat-box">
+                    <span class="stat-number" id="remaining-count">0</span>
+                    <span class="stat-label">Remaining</span>
+                </div>
+                <div class="stat-box">
+                    <span class="stat-number" id="mastered-count">0</span>
+                    <span class="stat-label">Mastered</span>
+                </div>
+                <div class="stat-box">
+                    <span class="stat-number" id="bookmarked-count">0</span>
+                    <span class="stat-label">Bookmarked</span>
+                </div>
+            </div>
+
+            <button id="back-to-categories" class="btn-secondary">
+                <i class="fas fa-arrow-left"></i> Back to Categories
+            </button>
+        </div>
+
+        <div id="bookmarks-view" class="bookmarks-view" style="display: none;">
+            <h2>Your Bookmarked Cards</h2>
+            <div class="bookmarks-list" id="bookmarks-list"></div>
+            <button id="back-from-bookmarks" class="btn-secondary">
+                <i class="fas fa-arrow-left"></i> Back to Flashcards
+            </button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MediCheck | Drug Interaction Checker</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app-container">
+        <header class="app-header">
+            <div class="logo">
+                <i class="fas fa-prescription-bottle-alt"></i>
+                <h1>MediCheck</h1>
+            </div>
+            <p class="tagline">Drug Interaction Checker for Healthcare Professionals</p>
+        </header>
+
+        <main class="main-content">
+            <div class="search-card">
+                <div class="search-inputs">
+                    <div class="drug-input">
+                        <label for="drug1">First Drug</label>
+                        <div class="input-wrapper">
+                            <i class="fas fa-pills"></i>
+                            <input type="text" id="drug1" placeholder="e.g. Warfarin" list="drugs-list">
+                        </div>
+                    </div>
+                    
+                    <div class="interaction-icon">
+                        <i class="fas fa-random"></i>
+                    </div>
+                    
+                    <div class="drug-input">
+                        <label for="drug2">Second Drug</label>
+                        <div class="input-wrapper">
+                            <i class="fas fa-pills"></i>
+                            <input type="text" id="drug2" placeholder="e.g. Citalopram" list="drugs-list">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="search-actions">
+                    <button id="check-btn" class="primary-btn">
+                        <i class="fas fa-search"></i> Check Interaction
+                    </button>
+                    <button id="clear-btn" class="secondary-btn">
+                        <i class="fas fa-eraser"></i> Clear
+                    </button>
+                </div>
+            </div>
+
+            <datalist id="drugs-list">
+
+            </datalist>
+
+            <div id="result" class="result-card hidden">
+                <div class="result-header">
+                    <h2 id="result-title">Interaction Result</h2>
+                    <div id="severity-badge" class="severity-badge severity-none">
+                        <i class="fas fa-check-circle"></i> No Interaction
+                    </div>
+                </div>
+                
+                <div class="result-body">
+                    <div id="interaction-description" class="description"></div>
+                    
+                    <div class="detail-cards">
+                        <div class="detail-card mechanism-card">
+                            <div class="detail-header">
+                                <i class="fas fa-atom"></i>
+                                <h3>Mechanism</h3>
+                            </div>
+                            <p id="mechanism-text"></p>
+                        </div>
+                        
+                        <div class="detail-card management-card">
+                            <div class="detail-header">
+                                <i class="fas fa-clipboard-check"></i>
+                                <h3>Management</h3>
+                            </div>
+                            <p id="management-text"></p>
+                        </div>
+                        
+                        <div class="detail-card references-card">
+                            <div class="detail-header">
+                                <i class="fas fa-book-medical"></i>
+                                <h3>References</h3>
+                            </div>
+                            <p id="references-text"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="recent-searches hidden" id="recent-searches">
+                <h3><i class="fas fa-history"></i> Recent Searches</h3>
+                <div id="recent-list" class="recent-list"></div>
+            </div>
+        </main>
+
+        <footer class="app-footer">
+            <p><i class="fas fa-info-circle"></i> For educational purposes only. Always verify with clinical resources.</p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

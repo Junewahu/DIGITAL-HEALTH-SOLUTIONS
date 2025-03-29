@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Compliance | Occupational Health</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Enhanced Compliance Dashboard Styles */
+        .compliance-overview {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 30px;
+            background: white;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+
+        .compliance-score-card {
+            background: linear-gradient(135deg, #3a7bd5, #00d2ff);
+            color: white;
+            border-radius: 10px;
+            padding: 25px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .score-value {
+            font-size: 3.5rem;
+            font-weight: 700;
+            line-height: 1;
+            margin-bottom: 5px;
+        }
+
+        .score-label {
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+        }
+
+        .score-progress {
+            height: 8px;
+            background: rgba(255,255,255,0.3);
+            border-radius: 4px;
+            margin-bottom: 15px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: white;
+            border-radius: 4px;
+        }
+
+        .score-details {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9rem;
+        }
+
+        .compliance-breakdown {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+
+        .breakdown-item {
+            background: white;
+            border-radius: 8px;
+            padding: 15px;
+            display: flex;
+            align-items: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        .breakdown-item.complete {
+            border-left: 4px solid #38ef7d;
+        }
+
+        .breakdown-item.warning {
+            border-left: 4px solid #f7971e;
+        }
+
+        .breakdown-item.danger {
+            border-left: 4px solid #f44336;
+        }
+
+        .breakdown-icon {
+            font-size: 1.5rem;
+            margin-right: 15px;
+        }
+
+        .breakdown-content {
+            flex: 1;
+        }
+
+        .breakdown-percent {
+            font-size: 1.5rem;
+            font-weight: 600;
+            line-height: 1;
+        }
+
+        .breakdown-label {
+            font-size: 0.9rem;
+            color: #666;
+            margin: 5px 0;
+        }
+
+        .breakdown-trend {
+            font-size: 0.8rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .breakdown-trend.positive {
+            color: #38ef7d;
+        }
+
+        .breakdown-trend.negative {
+            color: #f44336;
+        }
+
+        .compliance-calendar {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 30px;
+            margin-top: 20px;
+        }
+
+        .calendar-view {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 5px;
+        }
+
+        .calendar-weekdays {
+            display: contents;
+            font-size: 0.8rem;
+            color: #666;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .calendar-weekdays div {
+            padding: 5px;
+            font-weight: 500;
+        }
+
+        .calendar-days {
+            display: contents;
+        }
+
+        .day {
+            aspect-ratio: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            padding: 5px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .day:hover {
+            background: #f5f7fa;
+        }
+
+        .day.with-event {
+            position: relative;
+            font-weight: 600;
+        }
+
+        .day.with-event .event-dot {
+            width: 6px;
+            height: 6px;
+            background: #3a7bd5;
+            border-radius: 50%;
+            margin-top: 2px;
+        }
+
+        .day.with-event.deadline .event-dot {
+            background: #f7971e;
+        }
+
+        .day.with-event.overdue .event-dot {
+            background: #f44336;
+        }
+
+        .deadline-details {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .deadline-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .deadline-item {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            border-radius: 8px;
+            transition: all 0.2s;
+            border-left: 4px solid #3a7bd5;
+        }
+
+        .deadline-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .deadline-item.critical {
+            border-left-color: #f44336;
+        }
+
+        .deadline-item.overdue {
+            border-left-color: #f44336;
+        }
+
+        .deadline-date {
+            min-width: 60px;
+            text-align: center;
+            margin-right: 15px;
+        }
+
+        .date-day {
+            font-size: 1.8rem;
+            font-weight: 600;
+            line-height: 1;
+        }
+
+        .date-month {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            color: #666;
+        }
+
+        .deadline-content {
+            flex: 1;
+        }
+
+        .deadline-title {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .deadline-meta {
+            display: flex;
+            gap: 15px;
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 5px;
+        }
+
+        .deadline-status {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .relevance {
+            font-size: 0.8rem;
+            padding: 3px 8px;
+            border-radius: 4px;
+        }
+
+        .relevance.critical {
+            background: rgba(244, 67, 54, 0.1);
+            color: #f44336;
+        }
+
+        .relevance.high {
+            background: rgba(247, 151, 30, 0.1);
+            color: #f7971e;
+        }
+
+        .deadline-actions {
+            display: flex;
+            gap: 5px;
+        }
+
+        @media (max-width: 1200px) {
+            .compliance-overview {
+                grid-template-columns: 1fr;
+            }
+            
+            .compliance-calendar {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .compliance-breakdown {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Proper Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="logo">
+                <i class="fas fa-user-md"></i>
+                <h1>OCCUPATIONAL HEALTH AND SAFETY<span>Minimizing risks, maximizing workplace well-being </span></h1>
+            </div>
+            
+            <nav class="main-nav">
+                <ul>
+                    <li>
+                        <a href="index.html">
+                            <i class="fas fa-tachometer-alt"></i>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="incidents.html">
+                            <i class="fas fa-file-medical"></i>
+                            <span>Incident Reports</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="preventive.html">
+                            <i class="fas fa-procedures"></i>
+                            <span>Preventive Actions</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="employee.html">
+                            <i class="fas fa-heartbeat"></i>
+                            <span>Employee Health</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="analytics.html">
+                            <i class="fas fa-chart-bar"></i>
+                            <span>Analytics</span>
+                        </a>
+                    </li>
+                    <li class="active">
+                        <a href="compliance.html">
+                            <i class="fas fa-clipboard-check"></i>
+                            <span>Compliance</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            
+            <div class="user-profile">
+                <img src="assets/images/medical-avatar.jpg" alt="Dr. June Wahu">
+                <div class="user-info">
+                    <strong>Dr. June Wahu</strong>
+                    <small>Occupational Health Specialist</small>
+                </div>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <header class="content-header">
+                <div>
+                    <h2>Health Compliance Dashboard</h2>
+                    <p class="subtitle">Monitor and manage regulatory compliance across departments</p>
+                </div>
+                <div class="header-actions">
+                    <div class="date-picker">
+                        <i class="fas fa-calendar-alt"></i>
+                        <input type="text" id="compliance-date-range" placeholder="Select date range">
+                    </div>
+                    <button class="btn btn-primary">
+                        <i class="fas fa-sync-alt"></i> Refresh
+                    </button>
+                    <button class="btn btn-secondary">
+                        <i class="fas fa-plus"></i> New Requirement
+                    </button>
+                </div>
+            </header>
+
+            <!-- Health Compliance Dashboard -->
+            <div class="compliance-overview">
+                <div class="compliance-score-card">
+                    <div class="score-value">88%</div>
+                    <div class="score-label">Overall Compliance Score</div>
+                    <div class="score-progress">
+                        <div class="progress-fill" style="width: 88%"></div>
+                    </div>
+                    <div class="score-details">
+                        <span class="improvement"><i class="fas fa-arrow-up"></i> 2% from last quarter</span>
+                        <span class="target">Target: 95%</span>
+                    </div>
+                </div>
+                <div class="compliance-breakdown">
+                    <div class="breakdown-item complete">
+                        <div class="breakdown-icon">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <div class="breakdown-content">
+                            <div class="breakdown-percent">100%</div>
+                            <div class="breakdown-label">OSHA Recordkeeping</div>
+                            <div class="breakdown-trend positive">
+                                <i class="fas fa-arrow-up"></i> 5%
+                            </div>
+                        </div>
+                    </div>
+                    <div class="breakdown-item complete">
+                        <div class="breakdown-icon">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <div class="breakdown-content">
+                            <div class="breakdown-percent">95%</div>
+                            <div class="breakdown-label">Medical Surveillance</div>
+                            <div class="breakdown-trend positive">
+                                <i class="fas fa-arrow-up"></i> 3%
+                            </div>
+                        </div>
+                    </div>
+                    <div class="breakdown-item warning">
+                        <div class="breakdown-icon">
+                            <i class="fas fa-exclamation-triangle"></i>
+                        </div>
+                        <div class="breakdown-content">
+                            <div class="breakdown-percent">82%</div>
+                            <div class="breakdown-label">PPE Compliance</div>
+                            <div class="breakdown-trend negative">
+                                <i class="fas fa-arrow-down"></i> 2%
+                            </div>
+                        </div>
+                    </div>
+                    <div class="breakdown-item danger">
+                        <div class="breakdown-icon">
+                            <i class="fas fa-times-circle"></i>
+                        </div>
+                        <div class="breakdown-content">
+                            <div class="breakdown-percent">75%</div>
+                            <div class="breakdown-label">Training Completion</div>
+                            <div class="breakdown-trend neutral">
+                                <i class="fas fa-equals"></i> 0%
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Upcoming Compliance Calendar -->
+            <div class="widget card full-width">
+                <div class="card-header">
+                    <h3><i class="fas fa-calendar-check"></i> Upcoming Compliance Calendar</h3>
+                    <div class="card-actions">
+                        <button class="btn btn-icon" title="View full calendar">
+                            <i class="fas fa-calendar-alt"></i> View Calendar
+                        </button>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="compliance-calendar">
+                        <div class="calendar-view">
+                            <div class="calendar-header">
+                                <button class="btn-icon"><i class="fas fa-chevron-left"></i></button>
+                                <h4>May 2025</h4>
+                                <button class="btn-icon"><i class="fas fa-chevron-right"></i></button>
+                            </div>
+                            <div class="calendar-grid">
+                                <div class="calendar-weekdays">
+                                    <div>Sun</div>
+                                    <div>Mon</div>
+                                    <div>Tue</div>
+                                    <div>Wed</div>
+                                    <div>Thu</div>
+                                    <div>Fri</div>
+                                    <div>Sat</div>
+                                </div>
+                                <div class="calendar-days">
+                                    <!-- Calendar days would be generated dynamically in a real app -->
+                                    <div class="empty-day"></div>
+                                    <div class="empty-day"></div>
+                                    <div class="day">1</div>
+                                    <div class="day">2</div>
+                                    <div class="day">3</div>
+                                    <div class="day">4</div>
+                                    <div class="day">5</div>
+                                    <div class="day">6</div>
+                                    <div class="day">7</div>
+                                    <div class="day">8</div>
+                                    <div class="day">9</div>
+                                    <div class="day">10</div>
+                                    <div class="day">11</div>
+                                    <div class="day">12</div>
+                                    <div class="day">13</div>
+                                    <div class="day">14</div>
+                                    <div class="day with-event deadline">
+                                        <div class="day-number">15</div>
+                                        <div class="event-dot" title="Ergonomic Assessment Due"></div>
+                                    </div>
+                                    <div class="day">16</div>
+                                    <div class="day">17</div>
+                                    <div class="day">18</div>
+                                    <div class="day">19</div>
+                                    <div class="day">20</div>
+                                    <div class="day">21</div>
+                                    <div class="day">22</div>
+                                    <div class="day">23</div>
+                                    <div class="day">24</div>
+                                    <div class="day">25</div>
+                                    <div class="day">26</div>
+                                    <div class="day">27</div>
+                                    <div class="day">28</div>
+                                    <div class="day">29</div>
+                                    <div class="day with-event overdue">
+                                        <div class="day-number">30</div>
+                                        <div class="event-dot" title="Bloodborne Pathogens Training Overdue"></div>
+                                    </div>
+                                    <div class="day">31</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="deadline-details">
+                            <h4>Upcoming Deadlines</h4>
+                            <div class="deadline-list">
+                                <div class="deadline-item overdue">
+                                    <div class="deadline-date">
+                                        <div class="date-day">15</div>
+                                        <div class="date-month">April</div>
+                                    </div>
+                                    <div class="deadline-content">
+                                        <div class="deadline-title">Bloodborne Pathogens Training</div>
+                                        <div class="deadline-meta">
+                                            <span class="department">All</span>
+                                            <span class="regulation">OSHA 1910.1030</span>
+                                        </div>
+                                        <div class="deadline-status">
+                                            <span class="badge danger">Overdue by 15 days</span>
+                                            <span class="relevance critical">Critical</span>
+                                        </div>
+                                    </div>
+                                    <div class="deadline-actions">
+                                        <button class="btn-icon"><i class="fas fa-bell"></i></button>
+                                        <button class="btn-icon"><i class="fas fa-edit"></i></button>
+                                    </div>
+                                </div>
+                                <div class="deadline-item">
+                                    <div class="deadline-item critical">
+                                    <div class="deadline-date">
+                                        <div class="date-day">15</div>
+                                        <div class="date-month">May</div>
+                                    </div>
+                                    <div class="deadline-content">
+                                        <div class="deadline-title">Ergonomic Assessment</div>
+                                        <div class="deadline-meta">
+                                            <span class="department">Office</span>
+                                            <span class="regulation">Policy ERG-2022</span>
+                                        </div>
+                                        <div class="deadline-status">
+                                            <span class="badge warning">Due in 5 days</span>
+                                            <span class="relevance high">High Priority</span>
+                                        </div>
+                                    </div>
+                                    <div class="deadline-actions">
+                                        <button class="btn-icon"><i class="fas fa-bell"></i></button>
+                                        <button class="btn-icon"><i class="fas fa-edit"></i></button>
+                                    </div>
+                                </div>
+                                    <div class="deadline-actions">
+                                        <button class="btn-icon"><i class="fas fa-bell"></i></button>
+                                        <button class="btn-icon"><i class="fas fa-edit"></i></button>
+                                    </div>
+                                </div>
+                                <div class="deadline-item">
+                                    <div class="deadline-date">
+                                        <div class="date-day">31</div>
+                                        <div class="date-month">May</div>
+                                    </div>
+                                    <div class="deadline-content">
+                                        <div class="deadline-title">Chemical Hygiene Plan Review</div>
+                                        <div class="deadline-meta">
+                                            <span class="department">Laboratory</span>
+                                            <span class="regulation">OSHA 1910.1450</span>
+                                        </div>
+                                        <div class="deadline-status">
+                                            <span class="badge">Due in 21 days</span>
+                                            <span class="relevance critical">Critical</span>
+                                        </div>
+                                    </div>
+                                    <div class="deadline-actions">
+                                        <button class="btn-icon"><i class="fas fa-bell"></i></button>
+                                        <button class="btn-icon"><i class="fas fa-edit"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Compliance Requirements Table -->
+            <div class="widget card full-width">
+                <div class="card-header">
+                    <h3><i class="fas fa-clipboard-list"></i> Compliance Requirements</h3>
+                    <div class="card-actions">
+                        <button class="btn-icon" title="Filter"><i class="fas fa-filter"></i></button>
+                        <button class="btn-icon" title="Export"><i class="fas fa-download"></i></button>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="table-filters">
+                        <div class="filter-group">
+                            <label>Status</label>
+                            <select id="status-filter">
+                                <option value="all">All Statuses</option>
+                                <option value="complete">Completed</option>
+                                <option value="in-progress">In Progress</option>
+                                <option value="overdue">Overdue</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label>Medical Relevance</label>
+                            <select id="relevance-filter">
+                                <option value="all">All</option>
+                                <option value="critical">Critical</option>
+                                <option value="high">High</option>
+                                <option value="medium">Medium</option>
+                            </select>
+                        </div>
+                    </div>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Requirement</th>
+                                <th>Regulation</th>
+                                <th>Due Date</th>
+                                <th>Status</th>
+                                <th>Department</th>
+                                <th>Medical Relevance</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Annual Respiratory Fit Testing</td>
+                                <td>OSHA 1910.134</td>
+                                <td>31-03-2025</td>
+                                <td><span class="status complete">Completed</span></td>
+                                <td>Laboratory</td>
+                                <td><span class="relevance critical">Critical</span></td>
+                                <td>
+                                    <button class="btn-icon" title="View details"><i class="fas fa-eye"></i></button>
+                                    <button class="btn-icon" title="Edit"><i class="fas fa-edit"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Hearing Conservation Program</td>
+                                <td>OSHA 1910.95</td>
+                                <td>17-05-2025</td>
+                                <td><span class="status in-progress">In Progress</span></td>
+                                <td>Manufacturing</td>
+                                <td><span class="relevance high">High</span></td>
+                                <td>
+                                    <button class="btn-icon" title="View details"><i class="fas fa-eye"></i></button>
+                                    <button class="btn-icon" title="Edit"><i class="fas fa-edit"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Bloodborne Pathogens Training</td>
+                                <td>OSHA 1910.1030</td>
+                                <td>04-04-2025</td>
+                                <td><span class="status overdue">Overdue</span></td>
+                                <td>All</td>
+                                <td><span class="relevance critical">Critical</span></td>
+                                <td>
+                                    <button class="btn-icon" title="View details"><i class="fas fa-eye"></i></button>
+                                    <button class="btn-icon" title="Edit"><i class="fas fa-edit"></i></button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize date range picker
+            flatpickr("#compliance-date-range", {
+                mode: "range",
+                dateFormat: "Y-m-d",
+                defaultDate: [new Date().setDate(new Date().getDate() - 30), new Date()],
+                onChange: function(selectedDates, dateStr) {
+                    updateComplianceData(selectedDates);
+                }
+            });
+
+            // Initialize Department Compliance Chart
+            const deptCtx = document.getElementById('department-compliance-chart').getContext('2d');
+            new Chart(deptCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['Laboratory', 'Manufacturing', 'Office', 'Warehouse', 'Maintenance'],
+                    datasets: [{
+                        label: 'Compliance Score',
+                        data: [92, 85, 88, 82, 79],
+                        backgroundColor: [
+                            'rgba(58, 123, 213, 0.7)',
+                            'rgba(58, 123, 213, 0.7)',
+                            'rgba(58, 123, 213, 0.7)',
+                            'rgba(247, 151, 30, 0.7)',
+                            'rgba(244, 67, 54, 0.7)'
+                        ],
+                        borderColor: [
+                            'rgba(58, 123, 213, 1)',
+                            'rgba(58, 123, 213, 1)',
+                            'rgba(58, 123, 213, 1)',
+                            'rgba(247, 151, 30, 1)',
+                            'rgba(244, 67, 54, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'Department Compliance Scores',
+                            font: {
+                                size: 14
+                            }
+                        },
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: false,
+                            min: 70,
+                            max: 100,
+                            title: {
+                                display: true,
+                                text: 'Compliance Percentage'
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Initialize Compliance Status Chart
+            const statusCtx = document.getElementById('compliance-status-chart').getContext('2d');
+            new Chart(statusCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Completed', 'In Progress', 'Pending', 'Overdue'],
+                    datasets: [{
+                        data: [45, 25, 15, 15],
+                        backgroundColor: [
+                            'rgba(56, 239, 125, 0.7)',
+                            'rgba(247, 151, 30, 0.7)',
+                            'rgba(108, 117, 125, 0.7)',
+                            'rgba(244, 67, 54, 0.7)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'Compliance Status Distribution',
+                            font: {
+                                size: 14
+                            }
+                        },
+                        legend: {
+                            position: 'bottom'
+                        }
+                    },
+                    cutout: '70%'
+                }
+            });
+
+            // Table filtering functionality
+            document.getElementById('status-filter').addEventListener('change', filterTable);
+            document.getElementById('relevance-filter').addEventListener('change', filterTable);
+
+            function filterTable() {
+                const statusFilter = document.getElementById('status-filter').value;
+                const relevanceFilter = document.getElementById('relevance-filter').value;
+                const rows = document.querySelectorAll('.data-table tbody tr');
+
+                rows.forEach(row => {
+                    const status = row.querySelector('.status').classList[1];
+                    const relevance = row.querySelector('.relevance').textContent.toLowerCase();
+                    
+                    const statusMatch = statusFilter === 'all' || status === statusFilter.replace('-', '');
+                    const relevanceMatch = relevanceFilter === 'all' || relevance === relevanceFilter;
+                    
+                    row.style.display = statusMatch && relevanceMatch ? '' : 'none';
+                });
+            }
+
+            function updateComplianceData(dateRange) {
+                // In a real app, you would fetch new data based on date range
+                console.log("Updating compliance data for:", dateRange);
+                // This would update all charts and tables
+            }
+        });
+    </script>
+</body>
+</html>
